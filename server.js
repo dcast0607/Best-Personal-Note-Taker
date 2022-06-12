@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
-const noteData = require('./db/db.json');
+const noteData = require('./db/db');
 const uuid = require('./db/helpers/uuid');
+const fs = require('fs');
+const util = require('util');
+const { json } = require('express/lib/response');
 const PORT = 3001;
 
 const app = express();
@@ -11,7 +14,16 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
 
+const readFromFile = util.promisify(fs.readFile);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -19,7 +31,9 @@ app.get('/', (req, res) => {
 
 
 app.get('/api/notes', (req, res) => {
-    res.status(200).json(noteData);
+    res.status(200);
+    console.info(`${req.method} request received for notes`);
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 app.post('/api/notes', (req, res) => {
@@ -66,7 +80,7 @@ app.delete('/api/notes/:noteId', (req, res) => {
 
 app.get('*', (req, res) =>
    res.send(
-    `Whoops, that's an invalid link. Please navigate to  <a href="http://localhost:${PORT}/">http://localhost:${PORT}/</a>`
+    `Whoops, that's an invalid link. Please navigate to  <a href="http://localhost/">http://localhost:${PORT}/</a>`
    )
 );
 

@@ -3,14 +3,15 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+let basePagePath ='/Users/danielcastro/Desktop/UCSD%20Bootcamp/Homework/Best-Personal-Note-Taker/';
 const baseURL = 'http://localhost:3001';
 
-if (window.location.pathname === '/notes') {
+if (window.location.pathname === basePagePath + 'public/notes.html') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
   saveNoteBtn = document.querySelector('.save-note');
   newNoteBtn = document.querySelector('.new-note');
-  noteList = document.querySelectorAll('.list-container .list-group');
+  noteList = document.querySelectorAll('.list-container, .list-group');
 }
 
 // Show an element
@@ -32,8 +33,13 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then(response => console.log(response.json()))
-  .then((data) => {return data})
+  })
+  .then((response) => response.json()
+  )
+  .then((data) => {
+      console.log(data);
+      return data;
+  })
   .catch((error) => {
     console.error('Error:', error);
   });
@@ -124,8 +130,10 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  let jsonNotes = await notes.json();
-  if (window.location.pathname === '/notes') {
+  let jsonNotes = notes;
+  console.log(jsonNotes);
+  if (window.location.pathname === basePagePath + 'public/notes.html') {
+    console.log("Notes page loaded");
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
@@ -171,7 +179,7 @@ const renderNoteList = async (notes) => {
     noteListItems.push(li);
   });
 
-  if (window.location.pathname === '/notes') {
+  if (window.location.pathname === basePagePath + 'public/notes.html') {
     noteListItems.forEach((note) => noteList[0].append(note));
   }
 };
@@ -179,7 +187,7 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-if (window.location.pathname === '/notes') {
+if (window.location.pathname ===  basePagePath +'/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
