@@ -3,6 +3,7 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+//Defines a base URL Path for our API requests. 
 const baseURL = 'http://localhost:3001';
 
 // Checks the current page index. If the user is on the "notes.html" page, then we
@@ -11,9 +12,9 @@ const baseURL = 'http://localhost:3001';
 // create an array based off our webpage URL. This is then compared against an if statement
 // to check if we need to retrieve a few selectors from the page. 
 let currentPage = window.location.pathname.split('/');
-console.log(currentPage);
+//console.log(currentPage);
 let currentPageIndex = currentPage.pop();
-console.log(currentPageIndex);
+//console.log(currentPageIndex);
 
 if (currentPageIndex === 'notes.html') {
   noteTitle = document.querySelector('.note-title');
@@ -46,7 +47,7 @@ const getNotes = () =>
   .then((response) => response.json()
   )
   .then((data) => {
-      console.log(data);
+      //console.log(data);
       return data;
   })
   .catch((error) => {
@@ -55,13 +56,23 @@ const getNotes = () =>
 
 
 const saveNote = (note) =>
-  fetch('/api/notes', {
+  fetch(baseURL + '/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
+  })
+  .then((response) => response.json()
+  )
+  .then((data) => {
+      console.log(data);
+      return data;
+  })
+  .catch((error) => {
+    console.error('Error:', error);
   });
+
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -140,9 +151,9 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = notes;
-  console.log(jsonNotes);
+  //console.log(jsonNotes);
   if (currentPageIndex === 'notes.html') {
-    console.log("Notes page loaded");
+    //console.log("Notes page loaded");
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
@@ -214,4 +225,16 @@ getAndRenderNotes();
 // TODO: Retrieve existing notes and display them on the left-hand side of the page. 
     // TODO: Build server.js file/code [DONE]
     // TODO: Figure out the routes needed on our app [DONE]
-    // TODO: Figure out how to incorporate API code into index.js 
+    // TODO: Figure out how to incorporate API code into index.js [DONE]
+
+// TODO: Build out logic so save newly added note. 
+  // TODO: When the user clicks on the save button, save the note as an entry of existing notes.
+  // TODO: Consume API request and add it to our json file. Reload the page or add this new note
+  // TODO Continued: on the list of saved note entries. 
+
+// TODO: Build out logic to delete note entries from database
+  // TODO: Add a way to link the delete icon to the ID of our JSON payload. This will be passed to the
+  // TODO Continued: delete API route to delete the existing note entry. We can reload the page after
+  // TODO Continued: the entry has been deleted or handle it more gracefully. 
+
+// TODO: Build out logic to show saved notes.
