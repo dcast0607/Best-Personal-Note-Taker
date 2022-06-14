@@ -3,10 +3,19 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-let basePagePath ='/Users/danielcastro/Desktop/UCSD%20Bootcamp/Homework/Best-Personal-Note-Taker/';
 const baseURL = 'http://localhost:3001';
 
-if (window.location.pathname === basePagePath + 'public/notes.html') {
+// Checks the current page index. If the user is on the "notes.html" page, then we
+// defined a few selectors. We are using 'window.location.pathname' to pull the current
+// user page. We then take the split method to split the URL by the "/" character, and 
+// create an array based off our webpage URL. This is then compared against an if statement
+// to check if we need to retrieve a few selectors from the page. 
+let currentPage = window.location.pathname.split('/');
+console.log(currentPage);
+let currentPageIndex = currentPage.pop();
+console.log(currentPageIndex);
+
+if (currentPageIndex === 'notes.html') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
   saveNoteBtn = document.querySelector('.save-note');
@@ -132,7 +141,7 @@ const handleRenderSaveBtn = () => {
 const renderNoteList = async (notes) => {
   let jsonNotes = notes;
   console.log(jsonNotes);
-  if (window.location.pathname === basePagePath + 'public/notes.html') {
+  if (currentPageIndex === 'notes.html') {
     console.log("Notes page loaded");
     noteList.forEach((el) => (el.innerHTML = ''));
   }
@@ -179,7 +188,7 @@ const renderNoteList = async (notes) => {
     noteListItems.push(li);
   });
 
-  if (window.location.pathname === basePagePath + 'public/notes.html') {
+  if (currentPageIndex === 'notes.html') {
     noteListItems.forEach((note) => noteList[0].append(note));
   }
 };
@@ -187,7 +196,8 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-if (window.location.pathname ===  basePagePath +'/notes') {
+
+if (currentPageIndex ===  'notes.html') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
