@@ -5,6 +5,7 @@ const uuid = require('./db/helpers/uuid');
 const fs = require('fs');
 const util = require('util');
 const { json } = require('express/lib/response');
+const { response } = require('express');
 const PORT = 3001;
 
 const app = express();
@@ -18,7 +19,11 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header(
       "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
+      "Origin, X-Requested-With, Content-Type, Accept",
+    );
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, DELETE"
     );
     next();
   });
@@ -34,6 +39,7 @@ app.get('/api/notes', (req, res) => {
     res.status(200);
     console.info(`${req.method} request received for notes`);
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+    
 });
 
 app.post('/api/notes', (req, res) => {
@@ -57,6 +63,23 @@ app.post('/api/notes', (req, res) => {
         status: 'success',
         body: newNote,
       };
+
+      readFromFile('./db/db.json').then((data) => 
+      {
+        let parsedNotesData = JSON.parse(data);
+        //console.log(parsedNotesData);
+        //console.log(newNote);
+        parsedNotesData = parsedNotesData.concat(newNote);
+        //console.log(parsedNotesData);
+        console.log(parsedNotesData);
+        fs.writeFile('./db/db.json', JSON.stringify(parsedNotesData), function(err) {
+          if(err) {
+              return console.log(err);
+          }
+          console.log("The file was saved!");
+        }); 
+      });
+
   
       console.log(response);
       res.status(201).json(response);
@@ -66,16 +89,35 @@ app.post('/api/notes', (req, res) => {
   });
 
 // NOTE DELETE Route may need work. 
-app.delete('/api/notes/:noteId', (req, res) => {
-    let noteRequestId = req.params.noteId;
-    if (noteRequestId) {
-        res.status(201);
-        console.log("Delete request received for " + noteRequestId + ".");
-    }
-    else {
-        res.status(501);
-        console.log("Please include a valid Note ID");
-    }
+app.delete('/api/notes/:noteIndex', (req, res) => {
+
+    readFromFile('./db/db.json').then((data) => {
+      let noteRequestId = req.params.noteIndex;
+      console.log(noteRequestId);
+      
+      let currentParsedNotesData = JSON.parse(data);
+      const currentSavedNotesLength = currentParsedNotesData.length;
+      console.log(currentSavedNotesLength);
+      // Need to specify index of note to delete it. 
+      currentParsedNotesData.splice(noteRequestId, 1);
+      console.log(currentParsedNotesData);
+      const deletedNotesLength = currentParsedNotesData.length;
+      console.log(deletedNotesLength);
+      
+      if (currentSavedNotesLength > deletedNotesLength) {
+        fs.writeFile('./db/db.json', JSON.stringify(currentParsedNotesData), function(err) {
+          if(err) {
+              return console.log(err);
+          }
+          console.log("The file was saved!");
+          });
+          res.status(201).json("Delete request received for note " + noteRequestId + ".");
+      }
+      else {
+        res.status(501).json("Please include a valid Note ID.");
+      }
+    });
+
 });
 
 app.get('*', (req, res) =>

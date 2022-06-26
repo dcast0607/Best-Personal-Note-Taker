@@ -1,3 +1,4 @@
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -47,7 +48,7 @@ const getNotes = () =>
   .then((response) => response.json()
   )
   .then((data) => {
-      //console.log(data);
+      console.log(data);
       return data;
   })
   .catch((error) => {
@@ -66,8 +67,8 @@ const saveNote = (note) =>
   .then((response) => response.json()
   )
   .then((data) => {
-      console.log(data);
-      return data;
+    console.log(data);
+    return data;
   })
   .catch((error) => {
     console.error('Error:', error);
@@ -75,11 +76,19 @@ const saveNote = (note) =>
 
 
 const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+  fetch(baseURL + `/api/notes/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    return data;
+  })
+  .catch((error) => {
+    console.error('Error:', error);
   });
 
 const renderActiveNote = () => {
@@ -109,13 +118,51 @@ const handleNoteSave = () => {
   });
 };
 
+const handleSavedNoteRender = (e) => {
+  e.stopPropagation();
+
+  const clickedNote = e.target;
+  const clickedNoteElement = e.target.className;
+
+  const addNoteContent = (noteTitle, noteText) => {
+    const noteTitleTarget = document.getElementById('main-note-title');
+    const noteTextTarget = document.getElementById('main-text-area');
+
+    noteTitleTarget.value = noteTitle;
+    noteTextTarget.value = noteText;
+  };
+
+  if (clickedNoteElement === "list-item-title") {
+    console.log("User clicked on title");
+    const noteTitle = JSON.parse(clickedNote.parentElement.getAttribute("data-note")).title;
+    const noteText = JSON.parse(clickedNote.parentElement.getAttribute("data-note")).text;
+    console.log(noteTitle, noteText);
+    console.log(typeof(noteTitle), typeof(noteText));
+    addNoteContent(noteTitle, noteText);
+
+  }
+  else if (clickedNoteElement === "list-group-item") {
+    console.log("User clicked on parent item");
+    const noteTitle = JSON.parse(clickedNote.getAttribute("data-note")).title;
+    const noteText = JSON.parse(clickedNote.getAttribute("data-note")).text;
+    console.log(noteTitle, noteText);
+    console.log(typeof(noteTitle), typeof(noteText));
+    addNoteContent(noteTitle, noteText);
+  }
+  else {
+    console.log("Button Clicked");
+  }
+
+
+}
+
 // Delete the clicked note
 const handleNoteDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
 
   const note = e.target;
-  const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+  const noteId = JSON.parse(note.parentElement.getAttribute('data-note-index'));
 
   if (activeNote.id === noteId) {
     activeNote = {};
@@ -150,8 +197,8 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  let jsonNotes = notes;
-  //console.log(jsonNotes);
+  const jsonNotes = notes;
+  console.log(jsonNotes);
   if (currentPageIndex === 'notes.html') {
     //console.log("Notes page loaded");
     noteList.forEach((el) => (el.innerHTML = ''));
@@ -163,6 +210,7 @@ const renderNoteList = async (notes) => {
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
+    liEl.addEventListener('click', handleSavedNoteRender);
 
     const spanEl = document.createElement('span');
     spanEl.classList.add('list-item-title');
@@ -192,10 +240,12 @@ const renderNoteList = async (notes) => {
     noteListItems.push(createLi('No saved Notes', false));
   }
 
+  let jsonNotesIndex = 0;
   jsonNotes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
-
+    li.dataset.noteIndex = jsonNotesIndex;
+    jsonNotesIndex++;
     noteListItems.push(li);
   });
 
@@ -228,13 +278,16 @@ getAndRenderNotes();
     // TODO: Figure out how to incorporate API code into index.js [DONE]
 
 // TODO: Build out logic so save newly added note. 
-  // TODO: When the user clicks on the save button, save the note as an entry of existing notes.
+  // TODO: When the user clicks on the save button, save the note as an entry of existing notes. [DONE]
   // TODO: Consume API request and add it to our json file. Reload the page or add this new note
-  // TODO Continued: on the list of saved note entries. 
+  // TODO Continued: on the list of saved note entries. [DONE]
 
 // TODO: Build out logic to delete note entries from database
   // TODO: Add a way to link the delete icon to the ID of our JSON payload. This will be passed to the
   // TODO Continued: delete API route to delete the existing note entry. We can reload the page after
-  // TODO Continued: the entry has been deleted or handle it more gracefully. 
+  // TODO Continued: the entry has been deleted or handle it more gracefully. [DONE]
+  // TODO: Add API Config to delete note entry. [DONE]
 
 // TODO: Build out logic to show saved notes.
+  // TODO: Build out logic that will render note entry onto the title field and the note context onto
+  // TODO Continue: the note section. 
