@@ -122,7 +122,7 @@ app.delete('/api/notes/:noteIndex', (req, res) => {
 
 app.get('*', (req, res) =>
    res.send(
-    `Whoops, that's an invalid link. Please navigate to  <a href="http://localhost/">http://localhost:${PORT}/</a>`
+    `Whoops, that's an invalid link. Please navigate to  <a href="http://localhost/">http://localhost:${localPORT}/</a>`
    )
 );
 
