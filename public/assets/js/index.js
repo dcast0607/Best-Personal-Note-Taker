@@ -6,8 +6,8 @@ let newNoteBtn;
 let noteList;
 //Defines a base URL Path for our API requests. 
 
-const baseURL = 'http://localhost:3001';
-//const baseURL = 'https://lit-oasis-69876.herokuapp.com/';
+//const baseURL = 'http://localhost:3001';
+const baseURL = 'https://lit-oasis-69876.herokuapp.com/';
 
 // Checks the current page index. If the user is on the "notes.html" page, then we
 // defined a few selectors. We are using 'window.location.pathname' to pull the current
