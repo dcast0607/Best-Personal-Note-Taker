@@ -6,7 +6,7 @@ const fs = require('fs');
 const util = require('util');
 const { json } = require('express/lib/response');
 const { response } = require('express');
-const PORT = 3001;
+const localPORT = 3001;
 
 const app = express();
 
@@ -126,6 +126,6 @@ app.get('*', (req, res) =>
    )
 );
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || localPORT, () => {
     console.log(`Personal Note Taker app listening at http://localhost:${PORT}`);
 });
