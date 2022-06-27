@@ -5,7 +5,7 @@ const uuid = require('./db/helpers/uuid');
 const fs = require('fs');
 const util = require('util');
 const { json } = require('express/lib/response');
-const { response } = require('express');
+const { response, application } = require('express');
 const localPORT = 3001;
 
 const app = express();
@@ -34,6 +34,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
   });
 
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/notes.html'));
+});
 
 app.get('/api/notes', (req, res) => {
     res.status(200);
@@ -120,11 +123,12 @@ app.delete('/api/notes/:noteIndex', (req, res) => {
 
 });
 
-app.get('*', (req, res) =>
-   res.send(
-    `Whoops, that's an invalid link. Please navigate to  <a href="http://localhost/">http://localhost:${localPORT}/</a>`
-   )
-);
+app.get('*', (req, res) => {
+  //  res.send(
+  //   `Whoops, that's an invalid link. Please navigate to  <a href="http://localhost/">http://localhost:${localPORT}/</a>`
+  //  )
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 app.listen(process.env.PORT || localPORT, () => {
     console.log(`Personal Note Taker app listening at http://localhost:${localPORT}`);
