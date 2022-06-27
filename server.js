@@ -127,5 +127,5 @@ app.get('*', (req, res) =>
 );
 
 app.listen(process.env.PORT || localPORT, () => {
-    console.log(`Personal Note Taker app listening at http://localhost:${PORT}`);
+    console.log(`Personal Note Taker app listening at http://localhost:${localPORT}`);
 });
