@@ -11,10 +11,22 @@ const developmentURL = 'http://localhost:3001';
 
 const githubURL = 'https://dcast0607.github.io/Best-Personal-Note-Taker/';
 
-const baseURL = (process.env.NODE_ENV ? productionURL : developmentURL);
-
-// This variable will store the url of our current environment.
-const url = window.location.origin;
+// We need to be able to make our application dynamic enough so that it can
+// be used across different environments. The function below will retrieve 
+// the base URL of the application will be defined as the origin url of the
+// window that this is opened in. For example, if we open this through github
+// pages it should define that base URL as the origin where as if this application
+// is opened through Heroku, it will define that as the base URL. 
+const baseURL = async () => {
+  if (window.location.origin == productionURL) {
+    return productionURL;
+  } else if (window.location.origin == developmentURL) {
+    return developmentURL;
+  } else if (window.location.origin == githubURL) {
+    return githubURL;
+  }
+  console.log(window.location.origin);
+};
 
 // Checks the current page index. If the user is on the "notes.html" page, then we
 // defined a few selectors. We are using 'window.location.pathname' to pull the current
@@ -277,6 +289,8 @@ if (currentPageIndex ===  'notes.html') {
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
   noteText.addEventListener('keyup', handleRenderSaveBtn);
 }
+
+if 
 
 getAndRenderNotes();
 
