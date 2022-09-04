@@ -1,5 +1,8 @@
+// We import the uuid helper file, we will use this in our notes object definition. 
+
 const uuid = require('./helpers/uuid');
 
+// We initialize a few test entries that we can use to seed data. 
 const notes = [
     {
         title: 'Test Title',

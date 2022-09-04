@@ -5,8 +5,16 @@ let newNoteBtn;
 let noteList;
 //Defines a base URL Path for our API requests. 
 
-//const baseURL = 'http://localhost:3001';
-const baseURL = 'https://lit-oasis-69876.herokuapp.com';
+const productionURL = 'https://lit-oasis-69876.herokuapp.com';
+
+const developmentURL = 'http://localhost:3001';
+
+const githubURL = 'https://dcast0607.github.io/Best-Personal-Note-Taker/';
+
+const baseURL = (process.env.NODE_ENV ? productionURL : developmentURL);
+
+// This variable will store the url of our current environment.
+const url = window.location.origin;
 
 // Checks the current page index. If the user is on the "notes.html" page, then we
 // defined a few selectors. We are using 'window.location.pathname' to pull the current
@@ -15,8 +23,9 @@ const baseURL = 'https://lit-oasis-69876.herokuapp.com';
 // to check if we need to retrieve a few selectors from the page. 
 let currentPage = window.location.pathname.split('/');
 //console.log(currentPage);
-let currentPageIndex = currentPage.pop();
-//console.log(currentPageIndex);
+currentPage.split('.');
+let currentPageIndex = currentPage[0];
+console.log(currentPageIndex);
 
 if (currentPageIndex === 'notes.html') {
   noteTitle = document.querySelector('.note-title');
@@ -24,6 +33,9 @@ if (currentPageIndex === 'notes.html') {
   saveNoteBtn = document.querySelector('.save-note');
   newNoteBtn = document.querySelector('.new-note');
   noteList = document.querySelectorAll('.list-container, .list-group');
+}
+else if (currentPageIndex === 'index.html') {
+
 }
 
 // Show an element

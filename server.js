@@ -1,16 +1,27 @@
+// We bring in the require packages and the right files.
+
 const express = require('express');
 const path = require('path');
-const noteData = require('./db/db');
 const uuid = require('./db/helpers/uuid');
 const fs = require('fs');
 const util = require('util');
-const { json } = require('express/lib/response');
-const { response, application } = require('express');
-const localPORT = 3001;
 
+const readFromFile = util.promisify(fs.readFile);
+
+// We define a local port so that we can test the application
+// locally. 
+const PORT = process.env.PORT || 3001;
+
+// Express app is initialized. 
 const app = express();
 
-app.use(express.urlencoded({ extended: true}));
+
+app.use(express.urlencoded(
+  { 
+    extended: true
+  })
+);
+
 app.use(express.json());
 
 app.use(express.static('public'));
@@ -28,21 +39,18 @@ app.use((req, res, next) => {
     next();
   });
 
-const readFromFile = util.promisify(fs.readFile);
-
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, '/public/index.html'));
   });
 
 app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/notes.html'));
+  res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
 app.get('/api/notes', (req, res) => {
-    res.status(200);
     console.info(`${req.method} request received for notes`);
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
-    
+    res.status(200);
 });
 
 app.post('/api/notes', (req, res) => {
@@ -124,12 +132,10 @@ app.delete('/api/notes/:noteIndex', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  //  res.send(
-  //   `Whoops, that's an invalid link. Please navigate to  <a href="http://localhost/">http://localhost:${localPORT}/</a>`
-  //  )
-  res.sendFile(path.join(__dirname, 'index.html'));
+  console.log("Whoops that's an invalid request!");
+  res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
-app.listen(process.env.PORT || localPORT, () => {
-    console.log(`Personal Note Taker app listening at http://localhost:${localPORT}`);
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Personal Note Taker app listening at http://localhost:${PORT}`);
 });
