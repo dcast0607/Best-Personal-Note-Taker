@@ -67,6 +67,7 @@ https://github.com/dcast0607/Best-Personal-Note-Taker/wiki/Best-Personal-Note-Ta
 
 ## Demo
 
+- Full Demo Walkthrough: 
 
 ## License
 

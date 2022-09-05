@@ -187,8 +187,5 @@ if (window.location.pathname === '/notes') {
   noteText.addEventListener('keyup', handleRenderSaveBtn);
 }
 
-notes.forEach((note) => {
-  console.log(note);
-})
 
 getAndRenderNotes();
