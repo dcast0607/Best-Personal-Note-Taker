@@ -3,6 +3,7 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
@@ -26,7 +27,12 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json',
     },
+  }).then((data) => {
+    return data
+  }).catch((err) => {
+    console.log(err);
   });
+
 const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
@@ -34,14 +40,26 @@ const saveNote = (note) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
+  }).then((data) => {
+    return data;
+  }).catch((err) => {
+    console.log(err);
   });
+
+
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
+  }).then((data) => {
+    console.log(data);
+  }).catch((err) => {
+    console.log(err);
   });
+
+
 const renderActiveNote = () => {
   hide(saveNoteBtn);
   if (activeNote.id) {

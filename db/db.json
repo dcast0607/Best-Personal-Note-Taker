@@ -1,11 +1,1 @@
-[
-  { "title": "Testy", "text": "Test", "noteId": "b454" },
-  {
-    "title": "Groceries",
-    "text": "- Bananas\n- Brocoli\n- Pasta\n- Milk\n- Eggs\n- Bacon",
-    "noteId": "8271"
-  },
-  { "title": "Adding Note", "text": "5+3=9", "noteId": "7400" },
-  { "title": "Insomnia Title", "text": "Insomnia Note Text", "noteId": "1f45" },
-  { "title": "Insomnia Title", "text": "Insomnia Note Text", "noteId": "cc63" }
-]
+[]
