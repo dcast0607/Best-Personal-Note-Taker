@@ -37,7 +37,7 @@ Running this command should allow seed the local database file with some starter
 
 ## Usage
 
-If you'd like to access the application through our Heroku instance, please navigate to the following: 
+If you'd like to access the application through our Heroku instance, please navigate to the following: </br>
 `https://lit-oasis-69876.herokuapp.com/`
 
 When you navigate to this page you should be presented with the option to "Get Started" clicking on this button will take you to the "Notes" page where you will see a list of existing notes and be presented with options to add a note, read an existing note, or delete an existing note. 
@@ -46,7 +46,7 @@ When you navigate to this page you should be presented with the option to "Get S
 
 On the main homepage, you will need to click on the "Get Started" button to initialize the application. When you click on this button you will get redirected to the "notes" page. 
 
-![Notes Page](./assets/noteTakerHomepage.png "Notes Page") </br>
+![Notes Page](./assets/generalNavigation.png "Notes Page") </br>
 
 On the main notes page, you will be given a few options to interact with: 
 
@@ -58,6 +58,15 @@ On the main notes page, you will be given a few options to interact with:
 - If you want to scrap the note that you are currently working on, you can click on the "+" button to start a new note. 
 - On the left hand side of the page, we will also render a list of the notes that are currently in the database. Clicking on the name of the note, will display it on the modal to the right.
 - Clicking on the trash can next to the note title, will delete an existing note. 
+
+#### API Usage
+
+We built a simple backend API that allows us to read, create, and delete existing notes based on user input from the webpage. IF you would like to read more about the API functionality, please click on the link below to visit the API wiki. 
+
+https://github.com/dcast0607/Best-Personal-Note-Taker/wiki/Best-Personal-Note-Taker-API-Documentation
+
+## Demo
+
 
 ## License
 
