@@ -37,7 +37,12 @@ Running this command should allow seed the local database file with some starter
 
 ## Usage
 
-**Running the Program**
+If you'd like to access the application through our Heroku instance, please navigate to the following: 
+`https://lit-oasis-69876.herokuapp.com/`
+
+When you navigate to this page you should be presented with the option to "Get Started" clicking on this button will take you to the "Notes" page where you will see a list of existing notes and be presented with options to add a note, read an existing note, or delete an existing note. 
+
+![Homepage](./assets/noteTakerHomepage.png"Homepage") </br>
 
 ## License
 
