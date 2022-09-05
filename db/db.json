@@ -1,1 +1,7 @@
-[{"title":"Test Title","text":"Test text","noteId":"670b"},{"title":"Test Note 1","text":"Test text 1","noteId":"b136"},{"title":"Test Note 2","text":"Test text","noteId":"215f"},{"title":"Test Note 3","text":"Catcher note","noteId":"0001"}]
+[
+    {
+        "title": "Non seeded Note",
+        "text": "This is an existing note in our database",
+        "noteId": "a123"
+    }
+]

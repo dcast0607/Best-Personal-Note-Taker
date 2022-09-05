@@ -2,6 +2,8 @@
 
 const uuid = require("./uuid");
 
+// We will be using fs to read and write to the existing db.json file. This will
+// let us seed data into this file.
 const fs = require("fs");
 
 // We initialize a few test entries that we can use to seed data.
@@ -28,15 +30,12 @@ const notes = [
   }
 ];
 
-function checkExistingData (existingNotes) {
-  existingNotes.forEach((note) => {
-    if (note.noteId = "0001") {
-      return true;
-    }
-  })
-  return false;
-};
-
+// We create a function that will read data from the existing db.json file. We then
+// use the forEach array method to iterate through the data so that we can add our seed
+// data on top of the existing notes data. Once we have read through the data, we then 
+// cycle through the seeded notes data above so that it can be added to the existing notes data.
+// Once we have an array that contains both our old data and new data, we user the writeFile method
+// to update the existing notes with data from our notes array. 
 function seedNotesData () {
   
   const existingNotes = [];
@@ -61,5 +60,5 @@ function seedNotesData () {
   });
 }
 
-
+// We call the seedNotesData function here. 
 seedNotesData();
