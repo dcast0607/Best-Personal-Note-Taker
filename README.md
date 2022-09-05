@@ -67,10 +67,13 @@ https://github.com/dcast0607/Best-Personal-Note-Taker/wiki/Best-Personal-Note-Ta
 
 ## Demo
 
-- Full Demo Walkthrough: 
+- Full Demo Walkthrough: https://www.loom.com/share/b38dd56b4f5649948415350d2886b19f
 
 ## License
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)</br>
+![License:Express JS](https://img.shields.io/badge/License-Express%20JS-brightgreen)</br>
+![License: FS](https://img.shields.io/badge/License-FS-yellowgreen)</br>
 
 ## Contributors
 
