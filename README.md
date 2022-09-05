@@ -42,7 +42,7 @@ If you'd like to access the application through our Heroku instance, please navi
 
 When you navigate to this page you should be presented with the option to "Get Started" clicking on this button will take you to the "Notes" page where you will see a list of existing notes and be presented with options to add a note, read an existing note, or delete an existing note. 
 
-![Homepage](./assets/noteTakerHomepage.png"Homepage") </br>
+![Homepage](./assets/noteTakerHomepage.png "Homepage") </br>
 
 ## License
 
