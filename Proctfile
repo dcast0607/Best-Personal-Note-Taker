@@ -1,1 +1,3 @@
-web: node server.js
+# Heroku config to let heroku know how to start our application. 
+
+web: npm start
