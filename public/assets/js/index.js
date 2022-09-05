@@ -1,124 +1,95 @@
+Skip to content
+GitLab
+Menu
+ 
+Search GitLab
+/
+Help
+Daniel Castro
+U
+UCSD-VIRT-FSF-PT-03-2022-U-LOL
+Project information
+Repository
+Issues
+0
+Merge requests
+0
+CI/CD
+Security & Compliance
+Deployments
+Packages & Registries
+Infrastructure
+Monitor
+Analytics
+Wiki
+Snippets
+Collapse sidebar
+UCSD-Coding-BootcampUCSD-Coding-Bootcamp
+UCSD-VIRT-FSF-PT-03-2022-U-LOL
+main
+UCSD-VIRT-FSF-PT-03-2022-U-LOL
+11-Express
+02-Homework
+Develop
+public
+assets
+js
+index.js
+ 
+ 
+ 
+
+Week 11
+Christina Shiroma authored 3 months ago
+e29e5140
+index.js
+4.35 KiB
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-//Defines a base URL Path for our API requests. 
-
-const productionURL = 'https://lit-oasis-69876.herokuapp.com';
-
-const developmentURL = 'http://localhost:3001';
-
-const githubURL = 'https://dcast0607.github.io/Best-Personal-Note-Taker/';
-
-// We need to be able to make our application dynamic enough so that it can
-// be used across different environments. The function below will retrieve 
-// the base URL of the application will be defined as the origin url of the
-// window that this is opened in. For example, if we open this through github
-// pages it should define that base URL as the origin where as if this application
-// is opened through Heroku, it will define that as the base URL. 
-const baseURL = async () => {
-  if (window.location.origin == productionURL) {
-    return productionURL;
-  } else if (window.location.origin == developmentURL) {
-    return developmentURL;
-  } else if (window.location.origin == githubURL) {
-    return githubURL;
-  }
-  console.log(window.location.origin);
-};
-
-// Checks the current page index. If the user is on the "notes.html" page, then we
-// defined a few selectors. We are using 'window.location.pathname' to pull the current
-// user page. We then take the split method to split the URL by the "/" character, and 
-// create an array based off our webpage URL. This is then compared against an if statement
-// to check if we need to retrieve a few selectors from the page. 
-let currentPage = window.location.pathname.split('/');
-//console.log(currentPage);
-currentPage.split('.');
-let currentPageIndex = currentPage[0];
-console.log(currentPageIndex);
-
-if (currentPageIndex === 'notes.html') {
+if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
   saveNoteBtn = document.querySelector('.save-note');
   newNoteBtn = document.querySelector('.new-note');
-  noteList = document.querySelectorAll('.list-container, .list-group');
+  noteList = document.querySelectorAll('.list-container .list-group');
 }
-else if (currentPageIndex === 'index.html') {
-
-}
-
 // Show an element
 const show = (elem) => {
   elem.style.display = 'inline';
 };
-
 // Hide an element
 const hide = (elem) => {
   elem.style.display = 'none';
 };
-
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
-
 const getNotes = () =>
-  fetch(baseURL + '/api/notes', {
+  fetch('/api/notes', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  })
-  .then((response) => response.json()
-  )
-  .then((data) => {
-      console.log(data);
-      return data;
-  })
-  .catch((error) => {
-    console.error('Error:', error);
   });
-
-
 const saveNote = (note) =>
-  fetch(baseURL + '/api/notes', {
+  fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
-  })
-  .then((response) => response.json()
-  )
-  .then((data) => {
-    console.log(data);
-    return data;
-  })
-  .catch((error) => {
-    console.error('Error:', error);
   });
-
-
 const deleteNote = (id) =>
-  fetch(baseURL + `/api/notes/${id}`, {
+  fetch(`/api/notes/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-    return data;
-  })
-  .catch((error) => {
-    console.error('Error:', error);
   });
-
 const renderActiveNote = () => {
   hide(saveNoteBtn);
-
   if (activeNote.id) {
     noteTitle.setAttribute('readonly', true);
     noteText.setAttribute('readonly', true);
@@ -131,7 +102,6 @@ const renderActiveNote = () => {
     noteText.value = '';
   }
 };
-
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
@@ -142,76 +112,31 @@ const handleNoteSave = () => {
     renderActiveNote();
   });
 };
-
-const handleSavedNoteRender = (e) => {
-  e.stopPropagation();
-
-  const clickedNote = e.target;
-  const clickedNoteElement = e.target.className;
-
-  const addNoteContent = (noteTitle, noteText) => {
-    const noteTitleTarget = document.getElementById('main-note-title');
-    const noteTextTarget = document.getElementById('main-text-area');
-
-    noteTitleTarget.value = noteTitle;
-    noteTextTarget.value = noteText;
-  };
-
-  if (clickedNoteElement === "list-item-title") {
-    console.log("User clicked on title");
-    const noteTitle = JSON.parse(clickedNote.parentElement.getAttribute("data-note")).title;
-    const noteText = JSON.parse(clickedNote.parentElement.getAttribute("data-note")).text;
-    console.log(noteTitle, noteText);
-    console.log(typeof(noteTitle), typeof(noteText));
-    addNoteContent(noteTitle, noteText);
-
-  }
-  else if (clickedNoteElement === "list-group-item") {
-    console.log("User clicked on parent item");
-    const noteTitle = JSON.parse(clickedNote.getAttribute("data-note")).title;
-    const noteText = JSON.parse(clickedNote.getAttribute("data-note")).text;
-    console.log(noteTitle, noteText);
-    console.log(typeof(noteTitle), typeof(noteText));
-    addNoteContent(noteTitle, noteText);
-  }
-  else {
-    console.log("Button Clicked");
-  }
-
-
-}
-
 // Delete the clicked note
 const handleNoteDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
-
   const note = e.target;
-  const noteId = JSON.parse(note.parentElement.getAttribute('data-note-index'));
-
+  const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
   if (activeNote.id === noteId) {
     activeNote = {};
   }
-
   deleteNote(noteId).then(() => {
     getAndRenderNotes();
     renderActiveNote();
   });
 };
-
 // Sets the activeNote and displays it
 const handleNoteView = (e) => {
   e.preventDefault();
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
   renderActiveNote();
 };
-
 // Sets the activeNote to and empty object and allows the user to enter a new note
 const handleNewNoteView = (e) => {
   activeNote = {};
   renderActiveNote();
 };
-
 const handleRenderSaveBtn = () => {
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
@@ -219,31 +144,22 @@ const handleRenderSaveBtn = () => {
     show(saveNoteBtn);
   }
 };
-
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  const jsonNotes = notes;
-  console.log(jsonNotes);
-  if (currentPageIndex === 'notes.html') {
-    //console.log("Notes page loaded");
+  let jsonNotes = await notes.json();
+  if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
-
   let noteListItems = [];
-
   // Returns HTML element with or without a delete button
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
-    liEl.addEventListener('click', handleSavedNoteRender);
-
     const spanEl = document.createElement('span');
     spanEl.classList.add('list-item-title');
     spanEl.innerText = text;
     spanEl.addEventListener('click', handleNoteView);
-
     liEl.append(spanEl);
-
     if (delBtn) {
       const delBtnEl = document.createElement('i');
       delBtnEl.classList.add(
@@ -254,67 +170,28 @@ const renderNoteList = async (notes) => {
         'delete-note'
       );
       delBtnEl.addEventListener('click', handleNoteDelete);
-
       liEl.append(delBtnEl);
     }
-
     return liEl;
   };
-
   if (jsonNotes.length === 0) {
     noteListItems.push(createLi('No saved Notes', false));
   }
-
-  let jsonNotesIndex = 0;
   jsonNotes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
-    li.dataset.noteIndex = jsonNotesIndex;
-    jsonNotesIndex++;
     noteListItems.push(li);
   });
-
-  if (currentPageIndex === 'notes.html') {
+  if (window.location.pathname === '/notes') {
     noteListItems.forEach((note) => noteList[0].append(note));
   }
 };
-
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
-
-
-if (currentPageIndex ===  'notes.html') {
+if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
   noteText.addEventListener('keyup', handleRenderSaveBtn);
 }
-
-if 
-
 getAndRenderNotes();
-
-
-// TODO: When clicking on the "Get Started" button, take the user to the /notes.html page.
-// DONE 
-// TODO: Fix Notes Page so that it renders correctly with the right elements. 
-// DONE, there was an issue with the assets folders not linking correctly.
-// TODO: Retrieve existing notes and display them on the left-hand side of the page. 
-    // TODO: Build server.js file/code [DONE]
-    // TODO: Figure out the routes needed on our app [DONE]
-    // TODO: Figure out how to incorporate API code into index.js [DONE]
-
-// TODO: Build out logic so save newly added note. 
-  // TODO: When the user clicks on the save button, save the note as an entry of existing notes. [DONE]
-  // TODO: Consume API request and add it to our json file. Reload the page or add this new note
-  // TODO Continued: on the list of saved note entries. [DONE]
-
-// TODO: Build out logic to delete note entries from database
-  // TODO: Add a way to link the delete icon to the ID of our JSON payload. This will be passed to the
-  // TODO Continued: delete API route to delete the existing note entry. We can reload the page after
-  // TODO Continued: the entry has been deleted or handle it more gracefully. [DONE]
-  // TODO: Add API Config to delete note entry. [DONE]
-
-// TODO: Build out logic to show saved notes.
-  // TODO: Build out logic that will render note entry onto the title field and the note context onto
-  // TODO Continue: the note section. 
