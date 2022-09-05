@@ -44,6 +44,21 @@ When you navigate to this page you should be presented with the option to "Get S
 
 ![Homepage](./assets/noteTakerHomepage.png "Homepage") </br>
 
+On the main homepage, you will need to click on the "Get Started" button to initialize the application. When you click on this button you will get redirected to the "notes" page. 
+
+![Notes Page](./assets/noteTakerHomepage.png "Notes Page") </br>
+
+On the main notes page, you will be given a few options to interact with: 
+
+- Clicking on the `Note Take` button will take you back to the homepage.
+- On the middle of the screen, you will be presented with the option of adding a new note title and a note text. This is where you will enter your data. Once you have field i the title and text, a save button will appear, this will give you the option to save your note. 
+
+![Save Note](./assets/savingNotes.png "Saving a Note") </br>
+
+- If you want to scrap the note that you are currently working on, you can click on the "+" button to start a new note. 
+- On the left hand side of the page, we will also render a list of the notes that are currently in the database. Clicking on the name of the note, will display it on the modal to the right.
+- Clicking on the trash can next to the note title, will delete an existing note. 
+
 ## License
 
 
